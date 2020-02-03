@@ -1,0 +1,25 @@
+/*
+ * Copyright lesson
+ * Author : Victor FAU
+ * Email : victorrfau@gmail.com
+ */
+
+.profileGlobal{
+    display: flex;
+    justify-content: left;
+}
+.profilePicture{
+    margin: 1em;
+}
+.profileContent{
+    width: 50%;
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.btn-toolbar{
+    display: flex;
+    justify-content: space-evenly;
+}

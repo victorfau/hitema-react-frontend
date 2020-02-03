@@ -1,26 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter, Route} from "react-router-dom";
+import UsersComponent from "./Component/Users/UsersComponent";
+import HomeComponent from "./Component/Home/HomeComponent";
+import NavBarComponent from "./Component/Nav/NavBarComponent";
+
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer} from "react-notifications";
+import DetailUserComponent from "./Component/Users/DetailUserComponent";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <NotificationContainer/>
+            <BrowserRouter>
+                <NavBarComponent />
+                <Route exact path="/" component={HomeComponent} />
+                <Route exact path="/users" component={UsersComponent} />
+                <Route exact path="/users/:id" component={DetailUserComponent}/>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;
