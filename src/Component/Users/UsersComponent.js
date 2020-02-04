@@ -13,6 +13,10 @@ import {Link} from "react-router-dom";
 class UsersComponent extends Component {
 
     state = {
+        auth: {
+            auth: false,
+            role: 0
+        },
         users: []
     };
 
@@ -20,7 +24,7 @@ class UsersComponent extends Component {
         let response = await UserService.list();
         if (response.ok) {
             let data = await response.json();
-            this.setState({users: data})
+            this.setState({users: data.data})
 
         }
     }
@@ -43,8 +47,7 @@ class UsersComponent extends Component {
             {
                 this.state.users.map((element, key) => (
                     <tr key={key}>
-                        <td>{element.id}</td>
-                        <td>{element.name}</td>
+                        <td>{element.name} - {element.lastName}</td>
                         <td>{element.email}</td>
                         <td>users</td>
                         <td>
@@ -60,12 +63,11 @@ class UsersComponent extends Component {
         );
 
         return (
-            <div>
+            <div className="container">
                 <TitleAsset title={"Users"}/>
                 <table className='table'>
                     <thead>
                     <tr>
-                        <th>#</th>
                         <th>nom - prénom</th>
                         <th>email</th>
                         <th>status</th>

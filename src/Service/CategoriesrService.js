@@ -16,7 +16,7 @@ class UserService extends PureComponent {
                 "Content-Type": "application/json"
             }
         };
-        return fetch(`${baseURL}/users`, init)
+        return fetch(`${baseURL}/categories`, init)
     }
 
     static async delete(id) {
@@ -26,7 +26,7 @@ class UserService extends PureComponent {
                 "Content-Type": "application/json"
             }
         };
-        return fetch(`${baseURL}/users/view/${id}`, init)
+        return fetch(`${baseURL}/categories/view/${id}`, init)
     }
 
     static async see(id) {
