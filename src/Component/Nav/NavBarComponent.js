@@ -11,7 +11,7 @@ class NavBarComponent extends Component {
                 <Link className="navbar-brand" to="/">Home</Link>
                 <div className="navbar-expand" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
-                        <Link className="nav-item nav-link" to="Users">Users</Link>
+                        <Link className="nav-item nav-link" to="/users">Users</Link>
                         <Link className="nav-item nav-link" to="/categories">Catégories</Link>
                         <Link className="nav-item nav-link" to="/articles">Articles</Link>
                     </div>

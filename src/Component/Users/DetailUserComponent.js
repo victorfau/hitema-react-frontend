@@ -48,6 +48,9 @@ class DetailUserComponent extends PureComponent {
                 </div>
                 <div className="profileGlobal">
                     <div className="profilePicture">
+                        /*
+                        * todo mettre en place la photo de profil du compte.
+                        * */
                         <img src="https://fakeimg.pl/320x440/" alt="illustration"/>
                     </div>
                     <div className="profileContent">

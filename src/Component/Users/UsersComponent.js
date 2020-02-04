@@ -8,6 +8,7 @@ import React, {Component} from 'react';
 import TitleAsset from "../Assets/TitleAsset";
 import UserService from "../../Service/UserService";
 import {NotificationManager} from "react-notifications";
+import {Form, Col} from 'react-bootstrap'
 import {Link} from "react-router-dom";
 
 class UsersComponent extends Component {
@@ -24,11 +25,25 @@ class UsersComponent extends Component {
         let response = await UserService.list();
         if (response.ok) {
             let data = await response.json();
-            this.setState({users: data.data})
+            this.setState({
+                // state ustilisé pour l'affichage
+                users: data.data,
+                // state utilsé pour le filtrage
+                preusers: data.data,
+            })
 
         }
     }
 
+    // fontion de filtrage
+    handleChange(event) {
+        console.log(event.target.value)
+        let data = [...this.state.preusers]
+        let result = data.filter(user => user.name.includes(event.target.value) !== false);
+        this.setState({users: result})
+    }
+
+    // fonction de suppression
     async handleDelete(id) {
         let response = await UserService.delete(id);
         if (response.ok) {
@@ -41,7 +56,9 @@ class UsersComponent extends Component {
     }
 
     render() {
-
+        /**
+         * @return le body du tableau avec les items
+         */
         const List = () => (
             <tbody>
             {
@@ -65,6 +82,21 @@ class UsersComponent extends Component {
         return (
             <div className="container">
                 <TitleAsset title={"Users"}/>
+                <div className="mb-5">
+                    <Form className="test">
+                        <Form.Row>
+                            <Col>
+                                <Form.Control
+                                    type='text'
+                                    name='username'
+                                    placeholder='enter'
+                                    onChange={this.handleChange.bind(this)}
+                                />
+                            </Col>
+                        </Form.Row>
+                    </Form>
+                </div>
+
                 <table className='table'>
                     <thead>
                     <tr>
