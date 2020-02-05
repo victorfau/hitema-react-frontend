@@ -6,3 +6,25 @@
 .profileGlobal{
   color: red;
 }
+
+.backModal{
+    display: flex;
+    justify-content: center;
+    background-color: rgba(105, 105, 105, 0.5);
+    z-index: 50000;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    right: 0;
+    display: none;
+}
+.frontModal{
+    border-radius: 10px;
+    border: solid 1px black;
+    height: 30em;
+    width: 20em;
+    background-color: white;
+    margin: auto;
+    display: none;
+}

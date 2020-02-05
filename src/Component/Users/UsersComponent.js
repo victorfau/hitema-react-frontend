@@ -37,10 +37,14 @@ class UsersComponent extends Component {
 
     // fontion de filtrage
     handleChange(event) {
-        console.log(event.target.value)
         let data = [...this.state.preusers]
-        let result = data.filter(user => user.name.includes(event.target.value) !== false);
+        let result = data.filter(user => user.name.includes(event.target.value) !== false || user.lastName.includes(event.target.value) !== false);
         this.setState({users: result})
+    }
+
+    handleOrder(order, event){
+        console.log(event.target)
+        // todo fonction de trie
     }
 
     // fonction de suppression
@@ -64,7 +68,8 @@ class UsersComponent extends Component {
             {
                 this.state.users.map((element, key) => (
                     <tr key={key}>
-                        <td>{element.name} - {element.lastName}</td>
+                        <td>{element.name}</td>
+                        <td>{element.lastName}</td>
                         <td>{element.email}</td>
                         <td>users</td>
                         <td>
@@ -78,6 +83,17 @@ class UsersComponent extends Component {
             }
             </tbody>
         );
+        const NoItem = () => (
+            <tbody>
+            <tr>
+                <td/>
+                <td/>
+                <td><i>No Item found</i></td>
+                <td/>
+                <td/>
+            </tr>
+            </tbody>
+        )
 
         return (
             <div className="container">
@@ -88,8 +104,7 @@ class UsersComponent extends Component {
                             <Col>
                                 <Form.Control
                                     type='text'
-                                    name='username'
-                                    placeholder='enter'
+                                    placeholder='Rechercher un prenom'
                                     onChange={this.handleChange.bind(this)}
                                 />
                             </Col>
@@ -100,13 +115,17 @@ class UsersComponent extends Component {
                 <table className='table'>
                     <thead>
                     <tr>
-                        <th>nom - prénom</th>
-                        <th>email</th>
+                        <th onClick={this.handleOrder.bind(this, 'name')}>prénom</th>
+                        <th onClick={this.handleOrder.bind(this, 'lastName')}>nom</th>
+                        <th onClick={this.handleOrder.bind(this, 'email')}>email</th>
                         <th>status</th>
                         <th>action</th>
                     </tr>
                     </thead>
-                    <List/>
+                    {
+                        (this.state.users.length > 0) ? <List/> : <NoItem/>
+                    }
+
                 </table>
             </div>
         )

@@ -21,7 +21,9 @@ class DetailUserComponent extends PureComponent {
             auth: false,
             role: 0
         },
-        user: {}
+        user: {
+            name:""
+        }
     };
 
     async componentDidMount() {
@@ -48,9 +50,7 @@ class DetailUserComponent extends PureComponent {
                 </div>
                 <div className="profileGlobal">
                     <div className="profilePicture">
-                        /*
-                        * todo mettre en place la photo de profil du compte.
-                        * */
+                        {/* todo mettre en place la photo de profil du compte.*/}
                         <img src="https://fakeimg.pl/320x440/" alt="illustration"/>
                     </div>
                     <div className="profileContent">
@@ -75,10 +75,13 @@ class DetailUserComponent extends PureComponent {
                         </ButtonToolbar>
                     </div>
                 </div>
+                <div className="mt-5">
+                    <TitleAsset title={"Les articles de " + this.state.user.name} />
+                </div>
             </div>
 
         );
     }
 }
-
+// todo mettre ici les articles
 export default DetailUserComponent;

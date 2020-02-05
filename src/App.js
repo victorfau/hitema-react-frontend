@@ -1,33 +1,22 @@
 import React, {PureComponent} from 'react';
-import {BrowserRouter, Route} from "react-router-dom";
+import MainComponent from "./Component/MainComponent";
+import {createStore} from "redux";
+import GlobalReducer from './Reducer/GlobalReducer'
+import {Provider} from "react-redux";
 
-import {NotificationContainer} from "react-notifications";
-import 'react-notifications/lib/notifications.css';
+const store = createStore(
+    GlobalReducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 
-import HomeComponent from "./Component/Home/HomeComponent";
-
-import UsersComponent from "./Component/Users/UsersComponent";
-import DetailUserComponent from "./Component/Users/DetailUserComponent";
-
-import NavBarComponent from "./Component/Nav/NavBarComponent";
-
-
-
-
-class App extends PureComponent{
-
+)
+class App extends PureComponent {
     render() {
         return (
-            <div className="App">
-                <NotificationContainer/>
-                <BrowserRouter>
-                    <NavBarComponent />
-                    <Route exact path="/" component={HomeComponent} />
-                    <Route exact path="/users" component={UsersComponent} />
-                    <Route exact path="/users/:id" component={DetailUserComponent}/>
-                </BrowserRouter>
-            </div>
+            <Provider store={store}>
+                <MainComponent/>
+            </Provider>
         );
     }
 }
+
 export default App;
