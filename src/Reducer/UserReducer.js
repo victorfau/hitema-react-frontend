@@ -1,0 +1,23 @@
+/*
+ * Copyright lesson
+ * Author : Victor FAU
+ * Email : victorrfau@gmail.com
+ */
+
+const initialState = {
+    name: false,
+    lastName: false,
+}
+
+const UserReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case 'CONNEXION':
+            return {...state, isLogged: !state.isLogged}
+        case 'MODAL':
+            return {...state, showModal: !state.showModal}
+        default:
+            return state
+    }
+}
+
+export default UserReducer
