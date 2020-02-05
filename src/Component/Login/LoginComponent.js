@@ -8,12 +8,17 @@ import React, {PureComponent} from 'react';
 import '../../store';
 import '../../CSS/Login/Login.css';
 import {Button} from "react-bootstrap";
+import {connect} from "react-redux";
 
 class LoginComponent extends PureComponent {
 
+    handleClick = () => {
+        this.props.setModal()
+    }
+
     render() {
         return (
-            <div className="loginContainer">
+            <div onClick={() => this.handleClick()} className="loginContainer">
                 <div className="loginForm">
                     <form>
                         <div>
@@ -35,5 +40,16 @@ class LoginComponent extends PureComponent {
         );
     }
 }
+const stateMap = (store) => {
+    return {
+        modal: store.logged.showModal
+    };
+};
 
-export default LoginComponent;
+const mapDispatchToProps = dispatch => {
+    return {
+        // dispatching plain actions
+        setModal: () => dispatch({type: 'MODAL'})
+    }
+}
+export default connect(stateMap, mapDispatchToProps)(LoginComponent);

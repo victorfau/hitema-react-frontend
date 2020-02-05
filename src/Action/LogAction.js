@@ -4,15 +4,9 @@
  * Email : victorrfau@gmail.com
  */
 
-export const openModal = () => {
+export const modal = () => {
     return {
-        type: 'OPEN_MODAL',
-        payload: null
-    }
-}
-export const closeModal = () => {
-    return {
-        type: 'OPEN_MODAL',
+        type: 'MODAL',
         payload: null
     }
 }

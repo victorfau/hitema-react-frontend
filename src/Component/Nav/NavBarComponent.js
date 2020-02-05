@@ -6,23 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button} from 'react-bootstrap';
 import '../../CSS/Nav/style.css';
 
-import {signIn, signOut} from "../../Action/LogAction";
-import store from "../../store";
-
-const stateMap = (store) => {
-    return {
-        login: store.logged.isLogged
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        // dispatching plain actions
-        setLogged: () => dispatch({ type: 'CONNEXION' })
-    }
-}
-
-
 class NavBarComponent extends Component {
 
     handleClick = () => {
@@ -41,7 +24,7 @@ class NavBarComponent extends Component {
 
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                {this.props.login ? <Unlog /> : <Log /> }
+                {this.props.login ? <Unlog/> : <Log/>}
                 <Link className="navbar-brand" to="/">Home</Link>
                 <div className="navbar-expand" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
@@ -52,6 +35,19 @@ class NavBarComponent extends Component {
                 </div>
             </nav>
         )
+    }
+}
+
+const stateMap = (store) => {
+    return {
+        login: store.logged.isLogged
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        // dispatching plain actions
+        setLogged: () => dispatch({type: 'MODAL'})
     }
 }
 

@@ -14,10 +14,8 @@ const loggedReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'CONNEXION':
             return {...state, isLogged: !state.isLogged}
-        case 'OPEN_MODAL':
-            return {...state, showModal: true}
-        case 'CLOSE_MODAL':
-            return {...state, showModal: false}
+        case 'MODAL':
+            return {...state, showModal: !state.showModal}
         default:
             return state
     }
