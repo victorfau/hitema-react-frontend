@@ -5,51 +5,99 @@
  */
 
 import React, {PureComponent} from 'react';
+import {Redirect} from 'react-router-dom'
 import '../../store';
 import '../../CSS/Login/Login.css';
 import {Button} from "react-bootstrap";
 import {connect} from "react-redux";
+import {NotificationManager} from "react-notifications";
+import LogService from "../../Service/LogiService";
 
 class LoginComponent extends PureComponent {
 
-    handleClick = () => {
-        this.props.setModal()
+    state = {
+        redirect: false
+    }
+
+    componentDidMount() {
+        if (this.props.redirect === true){
+            this.props.setModal()
+            NotificationManager.error('erreur')
+            this.props.history.push('/')
+        }
+    }
+
+    handleClick = (event) => {
+        if (event.target === document.getElementById('close')){
+            this.props.setModal()
+        }
+    }
+    async handleSubmit() {
+        let login = document.getElementById('login').value
+        let password = document.getElementById('password').value
+        console.log(this.props)
+        let test = await LogService.test(login, password);
+        console.log(test)
+        if (test.ok){
+            let response = await test.json()
+            console.log(response)
+            if(response.code === 0){
+                this.props.setModal()
+                this.props.setLogged()
+                localStorage.setItem('token-victorFAU', 'voila un token')
+                localStorage.setItem('role-victorFAU', 'admin')
+                return <Redirect to={'/users'} />
+            }
+        }
+
     }
 
     render() {
-        return (
-            <div onClick={() => this.handleClick()} className="loginContainer">
+        const Display = () =>  (
+            <div id="close" onClick={(event) => this.handleClick(event)} className="loginContainer">
                 <div className="loginForm">
                     <form>
                         <div>
                             <label>Login</label>
-                            <input type="text"/>
+                            <input id='login' type="text"/>
                         </div>
                         <div>
                             <label>Password</label>
-                            <input type="password"/>
+                            <input id='password' type="password"/>
                         </div>
                         <div>
-                            <Button>
+                            <Button onClick={this.handleSubmit.bind(this)}>
                                 Connecter
                             </Button>
                         </div>
                     </form>
                 </div>
             </div>
+        )
+        const Show = () => this.props.modal ? <Display/> : null
+        const Redirection = () => this.state.redirect ? null : <Redirect to='/users' />
+        return (
+            <div>
+                <Redirection/>
+                <Show />
+            </div>
         );
     }
 }
 const stateMap = (store) => {
     return {
-        modal: store.logged.showModal
+        modal: store.logged.showModal,
+        redirect: store.user.redirection
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         // dispatching plain actions
-        setModal: () => dispatch({type: 'MODAL'})
+        setModal: () => dispatch({type: 'MODAL'}),
+        redirect: () => dispatch({type: 'REDIRECT'}),
+        setLogged: () => dispatch({type: 'SET_CONNECTED'}),
+        unsetLogged: () => dispatch({type: 'SET_NOT_CONNECTED'})
     }
 }
 export default connect(stateMap, mapDispatchToProps)(LoginComponent);

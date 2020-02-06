@@ -17,4 +17,16 @@ export const connexion = () => {
         payload: null
     }
 }
+export const setLogged = () => {
+    return {
+        type: 'SET_CONNECTED',
+        payload: null
+    }
+}
+export const unsetLogged = () => {
+    return {
+        type: 'SET_NOT_LOGGED',
+        payload: null
+    }
+}
 //export const

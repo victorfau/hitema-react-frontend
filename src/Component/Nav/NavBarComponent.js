@@ -5,22 +5,35 @@ import {connect} from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button} from 'react-bootstrap';
 import '../../CSS/Nav/style.css';
+import LogService from "../../Service/LogiService";
+import {NotificationManager} from "react-notifications";
 
 class NavBarComponent extends Component {
+
+    componentDidMount() {
+        if(localStorage.getItem('token-victorFAU')){
+            this.props.setLoggedButton()
+        }else{
+            this.props.unsetLogged()
+        }
+    }
 
     handleClick = () => {
         this.props.setLogged()
     }
-
-    componentDidMount() {
-        console.log(this.props.login)
-        this.props.login ? console.log('unlog') : console.log('log')
-
+    async handleDeconnexion () {
+        let response = await LogService.logout();
+        if (response.ok){
+            localStorage.removeItem('token-victorFAU')
+            this.props.unsetLogged()
+            NotificationManager.success('success')
+        }
     }
 
     render() {
         const Log = () => (<Button onClick={() => this.handleClick()} className="navbar-brand">Connexion</Button>)
-        const Unlog = () => (<Button onClick={() => this.handleClick()} className="navbar-brand">Deconnexion</Button>)
+        const Unlog = () => (<Button onClick={this.handleDeconnexion.bind(this)} className="navbar-brand">Deconnexion</Button>)
+        const Categories = () => (<Link className="nav-item nav-link" to="/category">Catégories</Link>)
 
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -28,8 +41,8 @@ class NavBarComponent extends Component {
                 <Link className="navbar-brand" to="/">Home</Link>
                 <div className="navbar-expand" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
+                        <Categories/>
                         <Link className="nav-item nav-link" to="/users">Users</Link>
-                        <Link className="nav-item nav-link" to="/category">Catégories</Link>
                         <Link className="nav-item nav-link" to="/article">Articles</Link>
                     </div>
                 </div>
@@ -47,7 +60,9 @@ const stateMap = (store) => {
 const mapDispatchToProps = dispatch => {
     return {
         // dispatching plain actions
-        setLogged: () => dispatch({type: 'MODAL'})
+        setLogged: () => dispatch({type: 'MODAL'}),
+        setLoggedButton: () => dispatch({type: 'SET_CONNECTED'}),
+        unsetLogged: () => dispatch({type: 'SET_NOT_CONNECTED'})
     }
 }
 

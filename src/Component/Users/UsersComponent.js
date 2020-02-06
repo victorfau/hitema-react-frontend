@@ -4,12 +4,13 @@
  * Email : victorrfau@gmail.com
  */
 
-import React, {Component} from 'react';
-import TitleAsset from "../Assets/TitleAsset";
-import UserService from "../../Service/UserService";
-import {NotificationManager} from "react-notifications";
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import TitleAsset from "../Assets/TitleAsset"
+import UserService from "../../Service/UserService"
+import {NotificationManager} from "react-notifications"
 import {Form, Col} from 'react-bootstrap'
-import {Link} from "react-router-dom";
+import {Link} from "react-router-dom"
 
 class UsersComponent extends Component {
 
@@ -25,6 +26,12 @@ class UsersComponent extends Component {
         let response = await UserService.list();
         if (response.ok) {
             let data = await response.json();
+            if (data.code === 3 || data.code === 4){
+                NotificationManager.error(data.message)
+                this.props.history.push('/')
+                this.props.setLogged()
+            }
+
             this.setState({
                 // state ustilisé pour l'affichage
                 users: data.data,
@@ -132,4 +139,16 @@ class UsersComponent extends Component {
     }
 }
 
-export default UsersComponent;
+const stateMap = (store) => {
+    return{
+
+    }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        setLogged: () => dispatch({type: 'MODAL'})
+    }
+}
+
+export default connect(stateMap, mapDispatchToProps)(UsersComponent);

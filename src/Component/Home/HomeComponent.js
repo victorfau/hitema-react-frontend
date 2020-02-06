@@ -5,9 +5,11 @@
  */
 
 import React, {Component} from 'react';
+
 import TitleAsset from "../Assets/TitleAsset";
 
 class HomeComponent extends Component {
+
     render() {
         return (
             <div>

@@ -39,8 +39,8 @@ class MainComponent extends PureComponent {
         return (
             <div className="MainComponent">
                 <NotificationContainer/>
-                {this.props.modal ? <LoginComponent /> : null}
                 <BrowserRouter>
+                    <LoginComponent />
                     <NavBarComponent/>
                     <Route exact path="/" component={HomeComponent}/>
 

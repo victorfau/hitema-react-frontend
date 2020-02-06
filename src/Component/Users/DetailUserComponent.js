@@ -4,13 +4,14 @@
  * Email : victorrfau@gmail.com
  */
 
-import React, {PureComponent} from 'react';
-import {Button, ButtonToolbar} from "react-bootstrap";
+import React, {PureComponent} from 'react'
+import {connect} from 'react-redux'
+import {Button, ButtonToolbar} from "react-bootstrap"
 
-import UserService from "../../Service/UserService";
+import UserService from "../../Service/UserService"
 
-import Undefined from '../Assets/undefined';
-import TitleAsset from "../Assets/TitleAsset";
+import Undefined from '../Assets/undefined'
+import TitleAsset from "../Assets/TitleAsset"
 
 import '../../CSS/Users/Details.css'
 
@@ -84,4 +85,19 @@ class DetailUserComponent extends PureComponent {
     }
 }
 // todo mettre ici les articles
-export default DetailUserComponent;
+
+const stateMap = (store) => {
+    return {
+        login: store.logged.isLogged
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        // dispatching plain actions
+                setLogged: () => dispatch({type: 'MODAL'}),
+        redirect: () => dispatch({type: 'REDIRECT'})
+    }
+}
+
+export default connect(stateMap, mapDispatchToProps)(DetailUserComponent);

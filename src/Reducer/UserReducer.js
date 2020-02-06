@@ -7,6 +7,7 @@
 const initialState = {
     name: false,
     lastName: false,
+    redirection: false
 }
 
 const UserReducer = (state = initialState, action) => {
@@ -15,6 +16,8 @@ const UserReducer = (state = initialState, action) => {
             return {...state, isLogged: !state.isLogged}
         case 'MODAL':
             return {...state, showModal: !state.showModal}
+        case 'REDIRECT':
+            return {...state, redirection: true}
         default:
             return state
     }

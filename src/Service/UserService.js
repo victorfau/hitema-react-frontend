@@ -4,15 +4,14 @@
  * Email : victorrfau@gmail.com
  */
 
-import {PureComponent} from 'react';
-
 const baseURL = 'http://localhost:8000';
 
-class UserService extends PureComponent {
+class UserService{
     static async list() {
         let init = {
             method: 'GET',
             headers: {
+                "Authorization": localStorage.getItem('token-victorFAU'),
                 "Content-Type": "application/json"
             }
         };
@@ -40,5 +39,6 @@ class UserService extends PureComponent {
 
     }
 }
+
 
 export default UserService;
