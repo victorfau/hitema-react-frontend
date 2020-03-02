@@ -12,6 +12,7 @@ import {Button} from "react-bootstrap";
 import {connect} from "react-redux";
 import {NotificationManager} from "react-notifications";
 import LogService from "../../Service/LogiService";
+import {resolveToLocation} from "react-router-dom/modules/utils/locationUtils";
 
 class LoginComponent extends PureComponent {
 
@@ -35,18 +36,23 @@ class LoginComponent extends PureComponent {
     async handleSubmit() {
         let login = document.getElementById('login').value
         let password = document.getElementById('password').value
-        console.log(this.props)
         let test = await LogService.test(login, password);
-        console.log(test)
         if (test.ok){
             let response = await test.json()
             console.log(response)
             if(response.code === 0){
                 this.props.setModal()
                 this.props.setLogged()
-                localStorage.setItem('token-victorFAU', 'voila un token')
-                localStorage.setItem('role-victorFAU', 'admin')
+                NotificationManager.success('Vous êtes connecté(e)')
+                localStorage.setItem('token-victorFAU', response.data.token)
+                localStorage.setItem('role-victorFau', response.data.role)
+                if (response.data.role === 'admin'){
+                    this.props.setAdmin()
+                }
+                this.props.setRole(response.data.role)
                 return <Redirect to={'/users'} />
+            }else{
+                NotificationManager.error(response.message)
             }
         }
 
@@ -75,7 +81,7 @@ class LoginComponent extends PureComponent {
             </div>
         )
         const Show = () => this.props.modal ? <Display/> : null
-        const Redirection = () => this.state.redirect ? null : <Redirect to='/users' />
+        const Redirection = () => this.state.redirect ? <Redirect to='/users' /> : null
         return (
             <div>
                 <Redirection/>
@@ -87,7 +93,8 @@ class LoginComponent extends PureComponent {
 const stateMap = (store) => {
     return {
         modal: store.logged.showModal,
-        redirect: store.user.redirection
+        redirect: store.user.redirection,
+        role: store.user.role
     };
 };
 
@@ -96,6 +103,8 @@ const mapDispatchToProps = dispatch => {
         // dispatching plain actions
         setModal: () => dispatch({type: 'MODAL'}),
         redirect: () => dispatch({type: 'REDIRECT'}),
+        setAdmin : () => dispatch({type: 'SET_ADMIN'}),
+        setRole: (role) => dispatch({type: 'SET_ROLE', role: role}),
         setLogged: () => dispatch({type: 'SET_CONNECTED'}),
         unsetLogged: () => dispatch({type: 'SET_NOT_CONNECTED'})
     }

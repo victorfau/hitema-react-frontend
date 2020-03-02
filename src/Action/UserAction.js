@@ -10,3 +10,10 @@ export const redirect = () => {
         payload: null
     }
 }
+export const setRole = (role) => {
+    return {
+        type: 'SET_ROLE',
+        role: role,
+        payload: null
+    }
+}

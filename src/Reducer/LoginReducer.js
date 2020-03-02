@@ -7,6 +7,7 @@
 const initialState = {
     isLogged: false,
     showModal: false,
+    showLoading: false,
     isAdmin: false
 }
 
@@ -18,6 +19,12 @@ const loggedReducer = (state = initialState, action) => {
             return {...state, isLogged: false}
         case 'SET_CONNECTED':
             return {...state, isLogged: true}
+        case 'SET_LOADING':
+            return {...state, showLoading: true}
+        case 'UNSET_LOADING':
+            return {...state, showLoading: false}
+        case 'SET_ADMIN':
+            return {...state, isAdmin: true}
         case 'MODAL':
             return {...state, showModal: !state.showModal}
         default:

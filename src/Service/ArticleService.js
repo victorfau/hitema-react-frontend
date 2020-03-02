@@ -39,6 +39,17 @@ class UserService extends PureComponent {
         return await fetch(`${baseURL}/articles/view/${id}`, init)
 
     }
+
+    static async home(id) {
+        let init = {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+        return await fetch(`${baseURL}/articles/home`, init)
+
+    }
 }
 
 export default UserService;

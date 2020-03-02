@@ -1,0 +1,18 @@
+/*
+ * Copyright lesson
+ * Author : Victor FAU
+ * Email : victorrfau@gmail.com
+ */
+
+.articleContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.articleDown{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}

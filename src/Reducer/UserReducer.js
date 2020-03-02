@@ -7,8 +7,11 @@
 const initialState = {
     name: false,
     lastName: false,
-    redirection: false
+    redirection: false,
+    role: ''
 }
+
+// todo faire le reset
 
 const UserReducer = (state = initialState, action) => {
     switch (action.type) {

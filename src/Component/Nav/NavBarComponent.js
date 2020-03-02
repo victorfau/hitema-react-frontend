@@ -11,38 +11,41 @@ import {NotificationManager} from "react-notifications";
 class NavBarComponent extends Component {
 
     componentDidMount() {
-        if(localStorage.getItem('token-victorFAU')){
+        if (localStorage.getItem('token-victorFAU')) {
             this.props.setLoggedButton()
-        }else{
-            this.props.unsetLogged()
+        }
+        if (localStorage.getItem('role-victorFAU') === 'admin') {
+            this.props.setAdmin()
         }
     }
 
     handleClick = () => {
         this.props.setLogged()
     }
-    async handleDeconnexion () {
+
+    async handleDeconnexion() {
         let response = await LogService.logout();
-        if (response.ok){
-            localStorage.removeItem('token-victorFAU')
+        if (response.ok) {
+            localStorage.clear()
             this.props.unsetLogged()
+
             NotificationManager.success('success')
         }
     }
 
     render() {
         const Log = () => (<Button onClick={() => this.handleClick()} className="navbar-brand">Connexion</Button>)
-        const Unlog = () => (<Button onClick={this.handleDeconnexion.bind(this)} className="navbar-brand">Deconnexion</Button>)
+        const Unlog = () => (
+            <Button onClick={this.handleDeconnexion.bind(this)} className="navbar-brand">Deconnexion</Button>)
         const Categories = () => (<Link className="nav-item nav-link" to="/category">Catégories</Link>)
-
+        const Users = () => (<Link className="nav-item nav-link" to="/users">Users</Link>)
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                {this.props.login ? <Unlog/> : <Log/>}
+                {this.props.login && this.props.isAdmin ? <div><Unlog/>  <Categories/>  <Users/> </div>: null}
+                {this.props.login && !this.props.isAdmin ? <Unlog/> : <Log/>}
                 <Link className="navbar-brand" to="/">Home</Link>
                 <div className="navbar-expand" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
-                        <Categories/>
-                        <Link className="nav-item nav-link" to="/users">Users</Link>
                         <Link className="nav-item nav-link" to="/article">Articles</Link>
                     </div>
                 </div>
@@ -53,7 +56,8 @@ class NavBarComponent extends Component {
 
 const stateMap = (store) => {
     return {
-        login: store.logged.isLogged
+        login: store.logged.isLogged,
+        isAdmin: store.logged.isAdmin
     };
 };
 
@@ -62,7 +66,8 @@ const mapDispatchToProps = dispatch => {
         // dispatching plain actions
         setLogged: () => dispatch({type: 'MODAL'}),
         setLoggedButton: () => dispatch({type: 'SET_CONNECTED'}),
-        unsetLogged: () => dispatch({type: 'SET_NOT_CONNECTED'})
+        unsetLogged: () => dispatch({type: 'SET_NOT_CONNECTED'}),
+        setAdmin: () => dispatch({type: 'SET_ADMIN'})
     }
 }
 
