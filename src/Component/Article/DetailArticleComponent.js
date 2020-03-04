@@ -5,6 +5,7 @@
  */
 import React, {PureComponent} from 'react'
 import {connect} from 'react-redux'
+import {Button} from "react-bootstrap";
 import '../../store'
 
 import ArticleService from '../../Service/ArticleService'
@@ -19,7 +20,12 @@ class DetailArticleComponent extends PureComponent {
     state = {
         article: {
             createdAt: {},
-            modifiedAt: {}
+            modifiedAt: {},
+            auteur: {
+                name: '',
+                lastName: ''
+            },
+            votes: []
         }
     }
 
@@ -32,12 +38,38 @@ class DetailArticleComponent extends PureComponent {
             this.setState({article: article.data})
             console.log(new Date(this.state.article.createdAt.timestamp))
             this.props.unsetLoading()
+            console.log(this.props.isConnected)
         }
     }
 
     render() {
+
+        const Vote = () => (
+            <Button variant="primary">
+                j'aime cet article
+            </Button>
+        )
+        const UnVote = () => (
+            <p>Vous avez déjà voté pour cette article</p>
+        )
+        const NotConnect = () => (
+            <p>Vous devez vous connecter</p>
+        )
+
         return (
             <div>
+                <div className="voteContainer">
+                    {this.state.article.votes.length} votes
+                    {
+                        !this.props.isConnected ?
+                            <NotConnect/>
+                            :
+                            this.state.article.votes.filter(article => article.user.id === 1).length === 0 ?
+                                <Vote/>
+                                :
+                                <UnVote/>
+                    }
+                </div>
                 <div className='container'>
                     <TitleAsset title={this.state.article.name}/>
                 </div>
@@ -65,7 +97,7 @@ class DetailArticleComponent extends PureComponent {
                         </div>
                         <div>
                             <p>
-                                <i>Author : todo</i>
+                                <i>Auteur : {this.state.article.auteur.name} {this.state.article.auteur.lastName}</i>
                             </p>
                         </div>
                     </div>
@@ -77,9 +109,7 @@ class DetailArticleComponent extends PureComponent {
 
 const stateMap = (store) => {
     return {
-        // exemple
-        // -----------------------------
-        // modal: store.logged.showModal,
+        isConnected: store.logged.isLogged,
     };
 };
 

@@ -37,13 +37,23 @@ class NavBarComponent extends Component {
         const Log = () => (<Button onClick={() => this.handleClick()} className="navbar-brand">Connexion</Button>)
         const Unlog = () => (
             <Button onClick={this.handleDeconnexion.bind(this)} className="navbar-brand">Deconnexion</Button>)
-        const Categories = () => (<Link className="nav-item nav-link" to="/category">Catégories</Link>)
-        const Users = () => (<Link className="nav-item nav-link" to="/users">Users</Link>)
+        const Categories = () => (<div className="nav-bar"><Link className="nav-item nav-link" to="/category">Catégories</Link></div>)
+        const Users = () => (<div className="nav-bar"><Link className="nav-item nav-link" to="/users">Users</Link></div>)
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                {this.props.login && this.props.isAdmin ? <div><Unlog/>  <Categories/>  <Users/> </div>: null}
-                {this.props.login && !this.props.isAdmin ? <Unlog/> : <Log/>}
-                <Link className="navbar-brand" to="/">Home</Link>
+                {this.props.login ?
+                    this.props.isAdmin ?
+                        <div className='navbar-expand'>
+                            <Unlog/>
+                            <Categories/>
+                            <Users/>
+                        </div>
+                    :
+                        <Unlog />
+                :
+                    <Log />
+                }
+
                 <div className="navbar-expand" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
                         <Link className="nav-item nav-link" to="/article">Articles</Link>

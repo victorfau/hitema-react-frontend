@@ -12,7 +12,6 @@ import {Button} from "react-bootstrap";
 import {connect} from "react-redux";
 import {NotificationManager} from "react-notifications";
 import LogService from "../../Service/LogiService";
-import {resolveToLocation} from "react-router-dom/modules/utils/locationUtils";
 
 class LoginComponent extends PureComponent {
 

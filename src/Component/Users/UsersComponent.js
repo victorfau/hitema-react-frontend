@@ -125,8 +125,17 @@ class UsersComponent extends Component {
                         <th onClick={this.handleOrder.bind(this, 'name')}>prénom</th>
                         <th onClick={this.handleOrder.bind(this, 'lastName')}>nom</th>
                         <th onClick={this.handleOrder.bind(this, 'email')}>email</th>
-                        <th>status</th>
-                        <th>action</th>
+                        {this.props.isAdmin ?
+                            <th>Status</th>
+                            :
+                            null
+                        }
+                        {this.props.isAdmin ?
+                            <th>Actions</th>
+                            :
+                            null
+                        }
+
                     </tr>
                     </thead>
                     {
@@ -141,7 +150,7 @@ class UsersComponent extends Component {
 
 const stateMap = (store) => {
     return{
-
+        isAdmin: store.logged.isAdmin,
     }
 }
 
